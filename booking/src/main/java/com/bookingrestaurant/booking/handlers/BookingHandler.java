@@ -26,7 +26,7 @@ public class BookingHandler implements RouteHandler    {
         System.out.println("Recieved " + request + " from " + request.remoteAddress());
         System.out.println("****************************************************");
 
-        // Obtener los datos de la solicitud
+        
             String requestBody;
             try {
                 
@@ -34,7 +34,11 @@ public class BookingHandler implements RouteHandler    {
                 System.out.println(requestBody);
                 ObjectMapper objectMapper = new ObjectMapper();
                 Booking booking = objectMapper.readValue(requestBody, Booking.class);
-
+                if (isBookingExists(booking)) {
+                response.status(400);
+                response.write("there is a booking for that date occupied");
+                return;
+            }
                 
 
                 bookings.add(booking);                
@@ -52,5 +56,16 @@ public class BookingHandler implements RouteHandler    {
     }
     public List<Booking> getBookings() {
         return bookings;
+    }
+    
+    private boolean isBookingExists(Booking newBooking) {
+        for (Booking existingBooking : bookings) {
+            
+            if (existingBooking.getDate().equals(newBooking.getDate()) &&
+                existingBooking.getTime().equals(newBooking.getTime())) {
+                return true; 
+            }
+        }
+        return false;
     }
 }
