@@ -5,7 +5,8 @@ import java.time.LocalDateTime;
 public class Booking {
     private String customerName;
     private int tableSize;
-    private LocalDateTime dateTime;
+    private String date;
+    private String time;
     public String getCustomerName() {
         return customerName;
     }
@@ -18,10 +19,16 @@ public class Booking {
     public void setTableSize(int tableSize) {
         this.tableSize = tableSize;
     }
-    public LocalDateTime getDateTime() {
-        return dateTime;
+    public String getDate() {
+        return date;
     }
-    public void setDateTime(LocalDateTime dateTime) {
-        this.dateTime = dateTime;
+    public void setDate(String date) {
+        this.date = date;
+    }
+    public String getTime() {
+        return time;
+    }
+    public void setTime(String time) {
+        this.time = time;
     }
 }

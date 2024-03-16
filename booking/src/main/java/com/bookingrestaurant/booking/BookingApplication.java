@@ -2,23 +2,24 @@ package com.bookingrestaurant.booking;
 
 
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+
+import com.bookingrestaurant.booking.handlers.BookingHandler;
+import com.bookingrestaurant.booking.handlers.ViewBookingsHandler;
 
 import io.muserver.Method;
 import io.muserver.MuServer;
 import io.muserver.MuServerBuilder;
 
-@SpringBootApplication
 public class BookingApplication {
 
-	public static void main(String[] args) {
-		MuServer server = MuServerBuilder.httpServer()
-            .addHandler(Method.GET, "/", (request, response, pathParams) -> {
-                response.write("Hello, world");
-            })
-            .start();
-        System.out.println("Started server at " + server.uri());
-
-	}
+    public static void main(String[] args) {
+		BookingHandler bookingHandler = new BookingHandler();
+        MuServer server = MuServerBuilder.httpServer()
+            .addHandler(Method.POST, "/booking", new BookingHandler())
+			.addHandler(Method.GET, "/bookings", new ViewBookingsHandler(bookingHandler.getBookings()))
+            .start();  
+            
+        System.out.println("Server started at " + server.uri());
+    }
 }
